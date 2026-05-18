@@ -134,6 +134,8 @@ def toon_feesten_menu():
     for f in feesten:
         # f[0]: id, f[1]: isim, f[2]: tarih, f[3]: entree prijs
         #         # Met .strftime kun je de datum mooier formatteren: f[2].strftime('%d-%m-%Y')
+        # Ik wilde alleen de d m y niet de datetime format.
+        # hastttr controleert of datum f[2] in de type van datetime is. als het zo verandet het geweenste format.
         datum = f[2].strftime('%d-%m-%Y') if hasattr(f[2], 'strftime') else f[2]
         print(f"  🎫 {f[0]:<4} {f[1]:<21} {datum:<13} €{f[3]}")
 
@@ -182,12 +184,12 @@ def main_menu(ingelogde_student):
         if keuze == 1:
             menu_doorverwijzing_animatie('STUDENT TOEVOEGEN')
             nieuwe_student = save_student()
-            # terug = False
             while True:
                 if nieuwe_student == "terug": # het breekt de deze while moet ik nog een andere flag toevoegen om hoofd menu terug te keren
                     break
-                elif nieuwe_student:
-                    toon_student(nieuwe_student)
+                elif nieuwe_student: # Deze regel voorkomt de infinite loop, De enige doel van deze dit.
+                    # toon_student(nieuwe_student) # ik heb deze gelannuleerd want save_student() heeft al
+                    # een toon_student(nieuwe_student) anders word het geschreven twee keer.
                     break
                 else:
                     print("❌ Ongeldige invoer! Voer alstublieft \033[1m\033[31m'terug'\033[0m in.")
@@ -298,7 +300,6 @@ def main_menu(ingelogde_student):
                     if "bestaat niet" in result:
                         print("❌😬",result)
                     else:
-                        # print(f"Toegangkaartje met id {kaart_nmr} is verwijderd")
                         menu_doorverwijzing_animatie('hoofdmenu')
                         break
                 elif kaart_nmr.lower() == "terug":
@@ -337,7 +338,6 @@ def main_menu(ingelogde_student):
                     if kaart:
                         nieuwe_aantal_bieren = input("Geef nieuwe \033[1m\033[4m\033[34maantal bieren:\033[0m ")
                         if nieuwe_aantal_bieren.isdigit():
-                            # print(f"Aantal bieren van de feest met Kaart-ID:{kaart_nmr} word geüpdatet....🔄 ")
                             consumptie_alleen_update(int(kaart_nmr), int(nieuwe_aantal_bieren))
                             time.sleep(2)
                             break
@@ -475,7 +475,6 @@ def set_juiste_email():
                 return email
             elif valideer_email(email):
                 return email
-            # break
         except ValueError as e:
             print(f"Fout: {e}")
             print("Voer email in juiste format (@ad.hva.nl / @vu.nl):")
@@ -601,26 +600,19 @@ def consumptie_wijzigen(kaart_id, aantal_bieren):
         # Daarna creëert consumptie
         result = repository.create_consumptie(deelname_id, aantal_bieren)
         consumptie_id = result[0][0]
-        # print(repository.create_consumptie(deelname_id, aantal_bieren))
-        # if not result[0]:
-        #     print(f"Een probleen ontstaan binnen service.consumptie_wijzigen() : {result} ")
         toon_consumptie_na_de_wijziging(kaart_id, deelname_id, consumptie_id, aantal_bieren, "(Deelname + Consumptie)-Creëren")
         is_gelukt = True
     elif consumptie[1] is None: #consumptie[1] ====> consumptie_id
         # Deelname bestaat, consumptie nog niet → alleen consumptie aanmaken
         deelname_id = consumptie[0]
-        # print(repository.create_consumptie(deelname_id, aantal_bieren))
         result = repository.create_consumptie(deelname_id, aantal_bieren)
         consumptie_id = result[0][0]
         toon_consumptie_na_de_wijziging(kaart_id, deelname_id, consumptie_id, aantal_bieren, "Consumptie-Creëren")
         is_gelukt = True
-        # if not is_gelukt:
-        #     print(f"Een probleen ontstaan binnen service.consumptie_wijzigen() : {is_gelukt[1]} ")
     else:
         # Beide bestaan → update consumptie
         consumptie_id = consumptie[1]
         deelname_id = consumptie[0] #consumptie[1] ====> consumptie_id
-        # print(repository.update_consumptie_aantal_bieren(consumptie_id, aantal_bieren))
         result = repository.update_consumptie_aantal_bieren(consumptie_id, aantal_bieren)
         print(result)
         toon_consumptie_na_de_wijziging(kaart_id, deelname_id, consumptie_id, aantal_bieren, "Consumptie-Wijzigen (menu-2)")

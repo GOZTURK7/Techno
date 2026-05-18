@@ -33,7 +33,6 @@ def create_student(naam, tussenvoegsel, achternaam, geboortedatum, email):
     finally:
         mycursor.close()
         mydb.close()
-# print(create_student("Neşe", "van", "Bergen", "1988-09-09", "n.vanbergen@ad.hva.nl"))
 
 def create_vriendenpas(student_id, aankoop_datum):
     mydb = db_connection.get_connection()
@@ -56,7 +55,6 @@ def create_vriendenpas(student_id, aankoop_datum):
     finally:
         mycursor.close()
         mydb.close()
-# print(create_vriendenpas(1, "2026-05-13 20:33:00"))
 
 def create_feest(thema, datum):
     mydb = db_connection.get_connection()
@@ -82,7 +80,6 @@ def create_feest(thema, datum):
     finally:
         mycursor.close()
         mydb.close()
-# print(create_feest("Don't give up the fight", "2026-07-16 18:00:00"))
 
 def create_toegangkaartje(student_id, feest_id):
     mydb = db_connection.get_connection()
@@ -106,7 +103,6 @@ def create_toegangkaartje(student_id, feest_id):
     finally:
         mycursor.close()
         mydb.close()
-# print(create_toegangkaartje(1, 4))
 
 def create_deelname(kaart_id):
     mydb = db_connection.get_connection()

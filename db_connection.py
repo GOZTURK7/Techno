@@ -1,7 +1,6 @@
 # STUDENT FEEST - TECHNO
 # Auteur: Gökhan Öztürk
 
-
 import mysql.connector
 import config
 

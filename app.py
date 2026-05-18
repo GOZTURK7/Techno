@@ -1,11 +1,9 @@
 # STUDENT FEEST - TECHNO
 # Auteur: Gökhan Öztürk
 
-
 import time
 import traceback
 import service
-import repository
 def app():
     ingelogd = False
     ingelogde_student = None
@@ -23,10 +21,6 @@ def app():
             elif not student_id.isdigit():
                 print("❌ Fout: Het student-ID mag alleen uit positieve cijfers bestaan! Probeer het opnieuw.")
                 continue # Start de hoofdlus opnieuw vanaf het begin
-
-            # if gebruiker_naam.lower() == 'stop':
-            #     print("Tot ziens...")
-            #     break
             else:
                 # boven heb ik isdigit() gebruikt, daardoor moest student_id daar string blijven.
                 # maar daarna in database om tegen geen probleem te komen heb ik heb hier
@@ -39,10 +33,8 @@ def app():
                 print(f"🚀 Inloggen voltooid! Een ogenblik geduld... ⏳")
                 time.sleep(1.25)
                 print(f"Ingelogd✅  Welkom {ingelogde_student[1]}!")
-                # print(f"Uw e-mail: {ingelogde_student[5]}")
                 print(f"\n\n\n")
                 ingelogd = True # Stop de loop
-
         except ValueError as e:
             # Fout: Student niet gevonden
             print(f"❌ Fout: {e}")
@@ -77,10 +69,8 @@ def app():
             # Voor onverwachte of algemene fouten
             traceback.print_exc()
             print(f"⚠️ Er is een onbekende fout opgetreden: {e}")
-
     # print(f"inlogde student: {ingelogde_student}")
     if ingelogd:
         print(f"\n\n")
         service.main_menu(ingelogde_student)
         print(f"\n\n")
-    # print(a)
