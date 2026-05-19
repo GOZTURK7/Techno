@@ -60,7 +60,7 @@ def toon_login():
     print(lijn)
     print("  Voer uw gegevens in om in te loggen.")
     print("-" * 48)
-    print(f"U kunt altijd \033[1m\033[4m\033[31m'stop'\033[0m typen om te stoppen")
+    print(f"U kunt altijd \033[1m\033[31m'stop'\033[0m typen om te stoppen")
 
     student_id     = input("  👤  Student ID      : ")
     if student_id == 'stop':
@@ -99,7 +99,7 @@ def toon_menu(student):
 
 def toon_student(student):
     lijn = "=" * 48
-    dun  = "-" * 48
+    dun  = "-" * 48 #zet datetime in string                  # has atribute? -obj   - deze eigenschap
     geboortedatum = student[4].strftime('%d-%m-%Y') if hasattr(student[4], 'strftime') else student[4]
 
     print()
@@ -362,35 +362,35 @@ def save_student():
     while not is_created:
         try:
             naam = set_juiste_naam()
-            if wilt_u_terug_naar_menu(naam):
+            if wilt_u_terug_naar_menu(naam): #if "terug"
                 return naam
             tussenvoegsel = set_juiste_tussenvoegsel()
-            if wilt_u_terug_naar_menu(tussenvoegsel):
+            if wilt_u_terug_naar_menu(tussenvoegsel):#if "terug"
                 return tussenvoegsel
             achternaam = set_juiste_achternaam()
-            if wilt_u_terug_naar_menu(achternaam):
+            if wilt_u_terug_naar_menu(achternaam):#if "terug"
                 return achternaam
             geboortedatum = set_juiste_geboortedatum()
-            if wilt_u_terug_naar_menu(geboortedatum):
+            if wilt_u_terug_naar_menu(geboortedatum):#if "terug"
                 return geboortedatum
             while True:
                 email = set_juiste_email()
-                if wilt_u_terug_naar_menu(email):
+                if wilt_u_terug_naar_menu(email):#if "terug"
                     return email
                 try:
                     student = repository.create_student(naam, tussenvoegsel, achternaam, geboortedatum, email)
                     nieuwe_student = student
-                    is_created = True
+                    is_created = True # dit is overbodig want er is "return student"
                     toon_student(student)
-                    return student
-                except Exception as e:
+                    return student      # "return" beëindigt beide while-loops maar "break" beëindigt alleen
+                except Exception as e:  # de while waarin het staat
                     if "1062" in str(e):
                         print(f"❌ Dit e-mailadres is al in gebruik! Probeer een ander e-mailadres.")
-                else:
-                    raise
+                    else:
+                        raise
         except Exception as e:
             print(f"Fout: {e}")
-    return nieuwe_student
+    return nieuwe_student # dit is ook overbodig want er is "return student" boven, het beeindigt beide while-loops##
 # Terwijl student worden gecreëerd deze zijn
 # belangrijk. Ze controlleren de input en
 # zetten de geboortedatum-input in juiste

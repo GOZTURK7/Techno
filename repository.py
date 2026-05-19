@@ -302,7 +302,7 @@ group by student_id order by student_id""")
     mydb.close()
     return rows
 
-# 9 Zoek studenten met e-mailadres
+# 9 Zoek studenten met e-mailadres ✅
 def get_student_met_email(student_id, gebruiker_naam):
     mydb = db_connection.get_connection()
     mycursor = mydb.cursor()
@@ -345,7 +345,7 @@ def get_alle_feesten():
         AND datum <= NOW()
         ORDER BY datum ASC
         limit 4
-    """ # Geeft terug de feesten van laatste 4 maanden
+    """ # Geeft terug de feesten van laatste 6 maanden
     mycursor.execute(query)
     rows = mycursor.fetchall()
     mycursor.close()
