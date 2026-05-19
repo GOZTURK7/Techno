@@ -1,6 +1,6 @@
 # 🎉 Studentenfeest — Techno 
 
-> **Eindopdracht Databases en Programming — Make It Work | HvA**  
+> **Eindopdracht Databases en Programming — MakeItWork | HvA**  
 > Auteur: **Gökhan Öztürk** · BDA
 
 ---
